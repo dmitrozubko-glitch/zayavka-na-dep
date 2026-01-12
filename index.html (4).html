@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Deputy Head HRB Application</title>
+
+<style>
+    body {
+        background-color: #0f0f14;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .form-container {
+        background: #16161f;
+        padding: 30px;
+        border-radius: 12px;
+        width: 520px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #8ab4ff;
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        font-size: 14px;
+        color: #cfcfcf;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        background: #1f1f2e;
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        resize: none;
+    }
+
+    textarea {
+        height: 80px;
+    }
+
+    button {
+        margin-top: 25px;
+        width: 100%;
+        padding: 12px;
+        background: #5865F2;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #4752c4;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="form-container">
+    <h2>Заявка на Deputy Head HRB</h2>
+
+    <label>Імʼя Прізвище | Static:</label>
+    <input id="field_name">
+
+    <label>Вік:</label>
+    <input id="field_age">
+
+    <label>Ваш онлайн (скільки годин на день):</label>
+    <input id="field_online">
+
+    <label>Досвід роботи в HRB (якщо є):</label>
+    <textarea id="field_experience"></textarea>
+
+    <label>Чому саме ви повинні стати на цю посаду?:</label>
+    <textarea id="field_why"></textarea>
+
+    <label>Які ваші сильні сторони для ролі Deputy Head HRB?:</label>
+    <textarea id="field_strengths"></textarea>
+
+    <label>Як ви діятимете у разі конфлікту в команді?:</label>
+    <textarea id="field_conflict"></textarea>
+
+    <label>Чи вмієте працювати з документацією / таблицями / звітами?:</label>
+    <textarea id="field_docs"></textarea>
+
+    <label>Чи готові брати відповідальність і проявляти ініціативу?:</label>
+    <textarea id="field_initiative"></textarea>
+
+    <label>Що для вас означає дисципліна в команді?:</label>
+    <textarea id="field_discipline"></textarea>
+
+    <label>Чи готові до перевірок, контролю та регулярної звітності?:</label>
+    <textarea id="field_checks"></textarea>
+
+    <label>Ваші очікування від посади Deputy Head HRB:</label>
+    <textarea id="field_expectations"></textarea>
+
+    <button onclick="sendApplication()">Відправити заявку</button>
+</div>
+
+<script>
+const webhookURL = "https://discord.com/api/webhooks/1460198215147061434/Jl3RMwge-kBS6LawTdsZs4JUf4DaTE02QcPSySbEDud3oigwQlyWz2EHEErP0NMcHTI2";
+
+function sendApplication() {
+
+    const fields = [
+        ["Імʼя Прізвище | Static:", document.getElementById("field_name").value.trim()],
+        ["Вік:", document.getElementById("field_age").value.trim()],
+        ["Ваш онлайн (скільки годин на день):", document.getElementById("field_online").value.trim()],
+        ["Досвід роботи в HRB (якщо є):", document.getElementById("field_experience").value.trim()],
+        ["Чому саме ви повинні стати на цю посаду?:", document.getElementById("field_why").value.trim()],
+        ["Які ваші сильні сторони для ролі Deputy Head HRB?:", document.getElementById("field_strengths").value.trim()],
+        ["Як ви діятимете у разі конфлікту в команді?:", document.getElementById("field_conflict").value.trim()],
+        ["Чи вмієте працювати з документацією / таблицями / звітами?:", document.getElementById("field_docs").value.trim()],
+        ["Чи готові брати відповідальність і проявляти ініціативу?:", document.getElementById("field_initiative").value.trim()],
+        ["Що для вас означає дисципліна в команді?:", document.getElementById("field_discipline").value.trim()],
+        ["Чи готові до перевірок, контролю та регулярної звітності?:", document.getElementById("field_checks").value.trim()],
+        ["Ваші очікування від посади Deputy Head HRB:", document.getElementById("field_expectations").value.trim()]
+    ];
+
+    for (let i = 0; i < fields.length; i++) {
+        if (!fields[i][1]) {
+            alert("❗ Будь ласка, заповніть всі поля");
+            return;
+        }
+    }
+
+    fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            embeds: [{
+                title: "📄 Нова заявка на Deputy Head HRB",
+                color: 5793266,
+                fields: fields.map(f => ({
+                    name: f[0],
+                    value: f[1],
+                    inline: false
+                })),
+                footer: { text: "HRB Application System" },
+                timestamp: new Date().toISOString()
+            }]
+        })
+    })
+    .then(() => alert("✅ Заявку успішно відправлено"))
+    .catch(() => alert("❌ Помилка відправки"));
+}
+</script>
+
+</body>
+</html>
